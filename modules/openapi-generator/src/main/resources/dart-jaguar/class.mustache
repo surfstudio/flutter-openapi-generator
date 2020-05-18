@@ -8,7 +8,7 @@ message {{classname}} {
 {{#jsonFormat}}
 part '{{classFilename}}.jser.dart';
 
-class {{classname}} {
+class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   {{#vars}}{{#description}} /* {{{description}}} */{{/description}}
   @Alias('{{{baseName}}}', isNullable:{{#isNullable}} true{{/isNullable}}{{^isNullable}} false{{/isNullable}},{{#allowableValues}}
           {{^enumVars.empty}}{{^isString}}{{! isString because inline enums are not handled for now }}

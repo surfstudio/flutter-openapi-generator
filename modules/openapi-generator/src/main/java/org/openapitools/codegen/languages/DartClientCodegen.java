@@ -91,6 +91,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
+        supportsInheritance = true;
+
         // clear import mapping (from default generator) as dart does not use it at the moment
         importMapping.clear();
 
