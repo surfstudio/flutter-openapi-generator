@@ -529,7 +529,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "int".equalsIgnoreCase(datatype)) {
             var = "Number" + var;
         }
-        return escapeReservedWord(camelize(var, true));
+        return escapeReservedWord(camelize(var.toLowerCase(Locale.US), true));
     }
 
     @Override
