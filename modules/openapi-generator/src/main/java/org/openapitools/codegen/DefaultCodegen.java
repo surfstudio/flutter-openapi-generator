@@ -3019,6 +3019,14 @@ public class DefaultCodegen implements CodegenConfig {
 
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
+        boolean isEnum = referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty();
+        if (!isEnum && referencedSchema instanceof ComposedSchema) {
+            ComposedSchema composedSchema = (ComposedSchema) referencedSchema;
+            if (composedSchema.getAllOf() != null && composedSchema.getAllOf().size() == 1) {
+                referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, composedSchema.getAllOf().get(0));
+            }
+        }
+
         //Referenced enum case:
         if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
