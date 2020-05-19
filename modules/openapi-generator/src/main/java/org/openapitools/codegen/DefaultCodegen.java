@@ -3019,11 +3019,19 @@ public class DefaultCodegen implements CodegenConfig {
 
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
-        boolean isEnum = referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty();
-        if (!isEnum && referencedSchema instanceof ComposedSchema) {
-            ComposedSchema composedSchema = (ComposedSchema) referencedSchema;
-            if (composedSchema.getAllOf() != null && composedSchema.getAllOf().size() == 1) {
-                referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, composedSchema.getAllOf().get(0));
+        if (referencedSchema.getEnum() == null || referencedSchema.getEnum().isEmpty()) {
+            if (referencedSchema instanceof ComposedSchema) {
+                ComposedSchema composedSchema = (ComposedSchema) referencedSchema;
+                if (composedSchema.getAllOf() != null && composedSchema.getAllOf().size() == 1) {
+                    referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, composedSchema.getAllOf().get(0));
+                }
+            } else if (referencedSchema instanceof ArraySchema) {
+                ArraySchema arraySchema = (ArraySchema) referencedSchema;
+                referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, arraySchema.getItems());
+                if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+                    String[] arr = arraySchema.getItems().get$ref().split("/");
+                    property.datatypeWithEnum = arr[arr.length - 1];
+                }
             }
         }
 
@@ -3051,7 +3059,9 @@ public class DefaultCodegen implements CodegenConfig {
             property.datatypeWithEnum = toEnumName(property);
             property.enumName = toEnumName(property);
         } else {
-            property.datatypeWithEnum = property.dataType;
+            if (property.datatypeWithEnum == null) {
+                property.datatypeWithEnum = property.dataType;
+            }
         }
 
         if (ModelUtils.isArraySchema(p)) {
