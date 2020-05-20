@@ -41,6 +41,7 @@ public class CodegenDiscriminator {
     // see the method createDiscriminator in DefaultCodegen.java
 
     private Set<MappedModel> mappedModels = new LinkedHashSet<>();
+    private Set<MappedModel> serializers = new LinkedHashSet<>();
 
     public String getPropertyName() {
         return propertyName;
@@ -90,6 +91,14 @@ public class CodegenDiscriminator {
         this.mappedModels = mappedModels;
     }
 
+    public Set<MappedModel> getSerializers() {
+        return serializers;
+    }
+
+    public void setSerializers(Set<MappedModel> serializers) {
+        this.serializers = serializers;
+    }
+
     /**
      * An object to hold discriminator mappings between payload values and schema names or
      * references.
@@ -106,6 +115,8 @@ public class CodegenDiscriminator {
         // The OAS schema name. It is obtained from the OAS document, and the string value
         // is converted to a sanitized, internal representation within codegen.
         private String modelName;
+
+        private MappedModel serializer;
 
         public MappedModel(String mappingName, String modelName) {
             this.mappingName = mappingName;
@@ -138,6 +149,14 @@ public class CodegenDiscriminator {
 
         public void setModelName(String modelName) {
             this.modelName = modelName;
+        }
+
+        public MappedModel getSerializer() {
+            return serializer;
+        }
+
+        public void setSerializer(MappedModel serializer) {
+            this.serializer = serializer;
         }
 
         @Override

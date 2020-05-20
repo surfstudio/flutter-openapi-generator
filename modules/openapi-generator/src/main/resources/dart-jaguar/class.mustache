@@ -6,7 +6,9 @@ message {{classname}} {
 }
 {{/protoFormat}}
 {{#jsonFormat}}
+{{^discriminator}}
 part '{{classFilename}}.jser.dart';
+{{/discriminator}}
 
 class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   {{#vars}}{{#description}} /* {{{description}}} */{{/description}}
@@ -35,7 +37,37 @@ class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
 }
 
 @GenSerializer(nullableFields: {{nullableFields}})
-class {{classname}}Serializer extends Serializer<{{classname}}> with _${{classname}}Serializer {
+class {{classname}}Serializer extends Serializer<{{classname}}>{{^discriminator}} with _${{classname}}Serializer{{/discriminator}} {
+  {{#discriminator}}
+  {{#serializers}}
+  final {{mappingName}} = {{modelName}}();
+  {{/serializers}}
 
+  @override
+  {{classname}} fromMap(Map map) {
+    final discriminator = map['{{propertyName}}'];
+    switch(discriminator) {
+      {{#mappedModels}}
+      case '{{mappingName}}':
+        return {{#serializer}}{{mappingName}}{{/serializer}}.fromMap(map);
+      {{/mappedModels}}
+      default:
+        throw Exception('Invalid discriminator type: $discriminator');
+    }
+  }
+
+  @override
+  Map<String, dynamic> toMap({{classname}} model) {
+    final discriminator = model.{{propertyName}}.value;
+    switch(discriminator) {
+      {{#mappedModels}}
+      case '{{mappingName}}':
+        return {{#serializer}}{{mappingName}}{{/serializer}}.toMap(model);
+      {{/mappedModels}}
+      default:
+        throw Exception('Invalid discriminator type: $discriminator');
+    }
+  }
+  {{/discriminator}}
 }
 {{/jsonFormat}}
