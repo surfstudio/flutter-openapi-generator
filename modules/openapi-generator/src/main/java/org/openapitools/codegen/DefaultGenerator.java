@@ -434,6 +434,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         // process models only
         for (String name : modelKeys) {
+            if (name.endsWith("_allOf")) continue;
+
             try {
                 //don't generate models that have an import mapping
                 if (config.importMapping().containsKey(name)) {
@@ -1293,6 +1295,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             models.add(mo);
 
             cm.removeSelfReferenceImport();
+            cm.imports.removeIf(s -> s.endsWith("AllOf"));
 
             allImports.addAll(cm.imports);
         }
