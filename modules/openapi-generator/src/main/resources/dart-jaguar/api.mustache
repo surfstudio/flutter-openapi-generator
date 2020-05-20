@@ -18,7 +18,7 @@ class {{classname}} extends ApiClient with _${{classname}}Client {
     final Map<String, CodecRepo> converters;
     final Duration timeout;
 
-    {{classname}}({this.base, this.converters, this.timeout = const Duration(minutes: 2)});
+    {{classname}}({this.base, this.converters, this.timeout = const Duration(minutes: 2),});
 
     {{#operation}}
     /// {{summary}}
@@ -27,47 +27,39 @@ class {{classname}} extends ApiClient with _${{classname}}Client {
     @{{httpMethod}}Req(path: "{{path}}"{{#hasAuthMethods}}, metadata: {"auth": [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}]}{{/hasAuthMethods}})
     Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{nickname}}(
     {{#pathParams}}
-            @PathParam("{{baseName}}") {{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+        @PathParam("{{baseName}}") {{dataType}} {{paramName}},
     {{/pathParams}}
     {{#headerParams}}
-        {{#-first}}{{#hasPathParams}},{{/hasPathParams}}{{/-first}}
-            @Header("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+        @Header("{{baseName}}") {{{dataType}}} {{paramName}},
     {{/headerParams}}
     {{#queryParams}}
-        {{#-first}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/-first}}
-            @QueryParam("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+        @QueryParam("{{baseName}}") {{{dataType}}} {{paramName},
     {{/queryParams}}
     {{#vendorExtensions}}
         {{#formParams}}
-            {{#-first}}{{#hasQueryParams}},{{/hasQueryParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/-first}}
-            {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsFormField() {{/isForm}}{{#isMultipart}}@AsMultipartField() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+            {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsFormField() {{/isForm}}{{#isMultipart}}@AsMultipartField() {{/isMultipart}}{{{dataType}}} {{paramName}},
         {{/formParams}}
         {{#bodyParam}}
-            {{#hasFormParams}},{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}
-            {{^isProto}}{{^isJson}}{{^isForm}}{{^isMultipart}}@AsBody(){{/isMultipart}}{{/isForm}}{{/isJson}}{{/isProto}} {{#isProto}}@Serialized(MimeTypes.binary) {{/isProto}}{{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsForm() {{/isForm}}{{#isMultipart}}@AsMultipart() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+            {{^isProto}}{{^isJson}}{{^isForm}}{{^isMultipart}}@AsBody(){{/isMultipart}}{{/isForm}}{{/isJson}}{{/isProto}} {{#isProto}}@Serialized(MimeTypes.binary) {{/isProto}}{{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsForm() {{/isForm}}{{#isMultipart}}@AsMultipart() {{/isMultipart}}{{{dataType}}} {{paramName}},
         {{/bodyParam}}
     {{/vendorExtensions}}
         ) {
         return super.{{nickname}}(
     {{#pathParams}}
-        {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{paramName}},
     {{/pathParams}}
     {{#headerParams}}
-        {{#-first}}{{#hasPathParams}},{{/hasPathParams}}{{/-first}}
-        {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{paramName}},
     {{/headerParams}}
     {{#queryParams}}
-        {{#-first}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/-first}}
-        {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{paramName}},
     {{/queryParams}}
 
     {{#formParams}}
-        {{#-first}}{{#hasQueryParams}},{{/hasQueryParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/-first}}
-        {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{paramName}},
     {{/formParams}}
     {{#bodyParam}}
-        {{#hasFormParams}},{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}
-        {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{paramName}},
     {{/bodyParam}}
         ).timeout(timeout);
     }

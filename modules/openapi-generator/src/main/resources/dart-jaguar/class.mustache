@@ -12,21 +12,22 @@ part '{{classFilename}}.jser.dart';
 
 class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   {{#vars}}{{#description}} /* {{{description}}} */{{/description}}
-  @Alias('{{{baseName}}}', isNullable:{{#isNullable}} true{{/isNullable}}{{^isNullable}} false{{/isNullable}},{{#allowableValues}}
+  @Alias('{{{baseName}}}', isNullable:{{#isNullable}} true{{/isNullable}}{{^isNullable}} false{{/isNullable}}{{#allowableValues}}
           {{^enumVars.empty}}{{^isString}}{{! isString because inline enums are not handled for now }}
-             processor:  const {{{datatypeWithEnum}}}FieldProcessor(),
+             , processor:  const {{{datatypeWithEnum}}}FieldProcessor(),
           {{/isString}}{{/enumVars.empty}}
       {{/allowableValues}}
   )
   final {{{datatype}}} {{name}};
-  {{#allowableValues}}{{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{{/allowableValues}}{{/vars}}
+
+  {{/vars}}
 
   {{classname}}(
-      {{#vars}}{{^defaultValue}}{{#required}} this.{{name}}, {{/required}}{{/defaultValue}}{{/vars}}
+  {{#vars}}{{^defaultValue}}{{#required}} this.{{name}}, {{/required}}{{/defaultValue}}{{/vars}}
 
 {{#vendorExtensions}}{{#hasVars}}{
-    {{#vars}}{{^required}} this.{{name}}{{#defaultValue}} = {{{defaultValue}}}{{#hasMore}}, {{/hasMore}} {{/defaultValue}}{{/required}}
-    {{#required}} {{#defaultValue}}this.{{name}} = {{{defaultValue}}}{{#hasMore}}, {{/hasMore}} {{/defaultValue}}{{/required}}{{/vars}}
+    {{#vars}}{{^required}} this.{{name}}{{#defaultValue}} = {{{defaultValue}}}, {{/defaultValue}}{{/required}}
+    {{#required}} {{#defaultValue}}this.{{name}} = {{{defaultValue}}},{{/defaultValue}}{{/required}}{{/vars}}
     }{{/hasVars}}{{/vendorExtensions}}
   );
 
