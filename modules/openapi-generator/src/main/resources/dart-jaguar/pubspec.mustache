@@ -15,6 +15,10 @@ dependencies:
 dev_dependencies:
     jaguar_retrofit_gen: ^2.8.10
 {{#jsonFormat}}
-    jaguar_serializer_cli: ^2.2.8
+    jaguar_serializer_cli:
+        git:
+            url: git://github.com/anton9088-ros/jaguar_serializer.git
+            path: serializer_cli
+            ref: fixes
 {{/jsonFormat}}
     build_runner: ^1.6.5
