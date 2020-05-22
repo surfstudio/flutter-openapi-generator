@@ -1,6 +1,6 @@
 library {{pubName}}.api;
 
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 {{#protoFormat}}
 import 'package:jaguar_serializer_protobuf/proto_repo.dart';
@@ -39,34 +39,17 @@ final Map<String, CodecRepo> _defaultConverters = {
 {{/protoFormat}}
 
 class {{clientName}} {
-    List<Interceptor> interceptors;
-    String basePath = "{{basePath}}";
-    Route _baseRoute;
+    final Dio dio;
     final Duration timeout;
+    Route _baseRoute;
 
-    {{clientName}}({this.interceptors, String baseUrl, this.timeout = const Duration(minutes: 2),}) {
-        _baseRoute = Route(baseUrl ?? basePath).withClient(globalClient ?? http.Client());
-
-        this.interceptors.forEach((interceptor) {
-            _baseRoute.before(interceptor.before);
-            _baseRoute.after(interceptor.after);
-        });
+    {{clientName}}({this.dio, String baseUrl, this.timeout = const Duration(minutes: 2),}) {
+        _baseRoute = Route(baseUrl).withClient(dio);
     }
 
     {{#apiInfo}}{{#apis}}
-    /**
-    * Get {{classname}} instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
-    {{classname}} get{{classname}}({Route base, Map<String, CodecRepo> converters}) {
-        if(base == null) {
-            base = _baseRoute;
-        }
-        if(converters == null) {
-            converters = _defaultConverters;
-        }
-        return {{classname}}(base: base, converters: converters, timeout: timeout);
+    {{classname}} get{{classname}}() {
+        return {{classname}}(base: _baseRoute, converters: _defaultConverters, timeout: timeout,);
     }
-
     {{/apis}}{{/apiInfo}}
 }
