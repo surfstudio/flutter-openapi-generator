@@ -4,7 +4,11 @@ description: {{pubDescription}}
 environment:
   sdk: ">=2.0.0 <3.0.0"
 dependencies:
-  jaguar_retrofit: ^2.8.8
+  jaguar_retrofit:
+    git:
+      url: git://github.com/anton9088-ros/client.git
+      path: retrofit
+      ref: dio
 {{#jsonFormat}}
   jaguar_serializer: ^2.2.12
 {{/jsonFormat}}
@@ -13,7 +17,11 @@ dependencies:
   jaguar_mimetype: ^1.0.1
 {{/protoFormat}}
 dev_dependencies:
-  jaguar_retrofit_gen: ^2.8.10
+  jaguar_retrofit_gen:
+    git:
+      url: git://github.com/anton9088-ros/client.git
+      path: retrofit_gen
+      ref: dio
 {{#jsonFormat}}
   jaguar_serializer_cli:
     git:
@@ -22,9 +30,3 @@ dev_dependencies:
       ref: fixes
 {{/jsonFormat}}
   build_runner: ^1.6.5
-dependency_overrides:
-  jaguar_resty:
-    git:
-      url: git://github.com/anton9088-ros/client.git
-      path: resty
-      ref: dio
