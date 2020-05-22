@@ -16,9 +16,8 @@ part '{{classFilename}}.jretro.dart';
 class {{classname}} extends ApiClient with _${{classname}}Client {
     final Route base;
     final Map<String, CodecRepo> converters;
-    final Duration timeout;
 
-    {{classname}}({this.base, this.converters, this.timeout = const Duration(minutes: 2),});
+    {{classname}}({this.base, this.converters});
 
     {{#operation}}
     /// {{summary}}
@@ -61,7 +60,7 @@ class {{classname}} extends ApiClient with _${{classname}}Client {
     {{#bodyParam}}
         {{paramName}},
     {{/bodyParam}}
-        ).timeout(timeout);
+        );
     }
 
   {{/operation}}

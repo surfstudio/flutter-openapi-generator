@@ -40,16 +40,15 @@ final Map<String, CodecRepo> _defaultConverters = {
 
 class {{clientName}} {
     final Dio dio;
-    final Duration timeout;
     Route _baseRoute;
 
-    {{clientName}}({this.dio, String baseUrl, this.timeout = const Duration(minutes: 2),}) {
+    {{clientName}}({this.dio, String baseUrl}) {
         _baseRoute = Route(baseUrl).withClient(dio);
     }
 
     {{#apiInfo}}{{#apis}}
     {{classname}} get{{classname}}() {
-        return {{classname}}(base: _baseRoute, converters: _defaultConverters, timeout: timeout,);
+        return {{classname}}(base: _baseRoute, converters: _defaultConverters);
     }
     {{/apis}}{{/apiInfo}}
 }
