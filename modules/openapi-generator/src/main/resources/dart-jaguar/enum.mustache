@@ -1,18 +1,21 @@
 
 {{#jsonFormat}}
+/* {{description}} */
 class {{classname}} {
-  /// The underlying value of this enum member.
   final {{dataType}} value;
 
   const {{classname}}._internal(this.value);
 
   {{#allowableValues}}
-    {{#enumVars}}
-      {{#description}}
-  /// {{description}}
-      {{/description}}
+  {{#enumVars}}
+  {{#enumDescription}}
+  /* {{{enumDescription}}} */
+  {{/enumDescription}}
   static const {{classname}} {{{name}}} = const {{classname}}._internal({{{value}}});
-    {{/enumVars}}
+  {{#hasMore}}
+
+  {{/hasMore}}
+  {{/enumVars}}
   {{/allowableValues}}
 }
 

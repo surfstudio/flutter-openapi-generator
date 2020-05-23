@@ -481,8 +481,63 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> allowableValues = cm.allowableValues;
         List<Object> values = (List<Object>) allowableValues.get("values");
         List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
+
+        if (cm.unescapedDescription != null) {
+            final EnumDescription enumDescription = parseEnumDescriptions(cm.unescapedDescription);
+            if (enumDescription != null) {
+                cm.description = enumDescription.description;
+                for (int i = 0; i < enumVars.size(); i++) {
+                    final Map<String, Object> enumVar = enumVars.get(i);
+                    final String name = ((String) enumVar.get("value")).replace("\"", "");
+                    final String description = enumDescription.enumDescriptions.get(name);
+                    if (description != null) {
+                        enumVar.put("enumDescription", description);
+                    }
+                    enumVar.put("hasMore", i != enumVars.size() - 1);
+                }
+            }
+        }
+
         cm.allowableValues.put("enumVars", enumVars);
         return true;
+    }
+
+    class EnumDescription {
+        final String description;
+        final Map<String, String> enumDescriptions;
+
+        EnumDescription(String description, Map<String, String> enumDescriptions) {
+            this.description = description;
+            this.enumDescriptions = enumDescriptions;
+        }
+    }
+
+    private EnumDescription parseEnumDescriptions(String unescapedDescription) {
+        final String[] lines = unescapedDescription.split("\n");
+        if (lines.length == 0) return null;
+
+        final String description = lines[0].trim();
+        final Map<String, String> enumDescriptions = new HashMap<>();
+        for (String line: lines) {
+            final int index = line.indexOf("-");
+            if (index == -1) continue;
+
+            final String name = line.substring(0, index)
+                .replace("*", "")
+                .replace("`", "")
+                .trim();
+
+            final String value = line.substring(index + 1)
+                .replace(";", "")
+                .trim();
+
+            if (!name.isEmpty() && !value.isEmpty()) {
+                enumDescriptions.put(name, value);
+            }
+        }
+
+        if (description.isEmpty() || enumDescriptions.isEmpty()) return null;
+        return new EnumDescription(description, enumDescriptions);
     }
 
     /**
