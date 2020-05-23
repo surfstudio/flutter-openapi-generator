@@ -33,7 +33,7 @@ class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
 
   @override
   String toString() {
-    return '{{classname}}[{{#vars}}{{name}}=${{name}}, {{/vars}}]';
+    return '{{classname}}[{{#allVars}}{{name}}=${{name}}, {{/allVars}}]';
   }
 }
 
