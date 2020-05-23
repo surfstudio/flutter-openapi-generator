@@ -38,17 +38,10 @@ final Map<String, CodecRepo> _defaultConverters = {
 };
 {{/protoFormat}}
 
-class {{clientName}} {
-    final Dio dio;
-    Route _baseRoute;
-
-    {{clientName}}({this.dio, String baseUrl}) {
-        _baseRoute = Route(baseUrl).withClient(dio);
-    }
-
-    {{#apiInfo}}{{#apis}}
-    {{classname}} get{{classname}}() {
-        return {{classname}}(base: _baseRoute, converters: _defaultConverters);
-    }
-    {{/apis}}{{/apiInfo}}
+class {{clientName}} extends DefaultApi {
+  {{clientName}}(Dio dio)
+      : super(
+          base: Route(dio.options.baseUrl).withClient(dio),
+          converters: _defaultConverters,
+        );
 }
