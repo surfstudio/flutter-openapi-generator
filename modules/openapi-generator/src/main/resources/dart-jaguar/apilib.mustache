@@ -39,9 +39,16 @@ final Map<String, CodecRepo> _defaultConverters = {
 {{/protoFormat}}
 
 class {{clientName}} extends DefaultApi {
-  {{clientName}}(Dio dio)
-      : super(
-          base: Route(dio.options.baseUrl).withClient(dio),
-          converters: _defaultConverters,
-        );
+  Dio _dio;
+
+  set dio(Dio dio) {
+    _dio = dio;
+    base = Route(dio.options.baseUrl).withClient(dio);
+  }
+
+  Dio get dio => _dio;
+
+  {{clientName}}(Dio dio): super( _defaultConverters) {
+    this.dio = dio;
+  }
 }

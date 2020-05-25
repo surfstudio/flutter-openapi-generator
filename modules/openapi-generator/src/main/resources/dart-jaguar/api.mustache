@@ -14,10 +14,10 @@ part '{{classFilename}}.jretro.dart';
 
 @GenApiClient()
 class {{classname}} extends ApiClient with _${{classname}}Client {
-    final Route base;
+    Route base;
     final Map<String, CodecRepo> converters;
 
-    {{classname}}({this.base, this.converters});
+    {{classname}}(this.converters);
 
     {{#operation}}
     /// {{summary}}
