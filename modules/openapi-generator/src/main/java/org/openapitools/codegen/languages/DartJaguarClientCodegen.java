@@ -212,6 +212,8 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("date_field_processor.mustache",
+            libFolder + File.separator + "model", "date_field_processor.dart"));
     }
 
     @Override
@@ -246,6 +248,11 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 for (CodegenDiscriminator.MappedModel mappedModel : cm.discriminator.getMappedModels()) {
                     modelImports.add(underscore(mappedModel.getModelName()));
                 }
+            }
+
+            boolean hasDates = cm.allVars.stream().anyMatch(var -> var.isDate);
+            if (hasDates) {
+                modelImports.add(underscore("DateFieldProcessor"));
             }
 
             cm.imports = modelImports;

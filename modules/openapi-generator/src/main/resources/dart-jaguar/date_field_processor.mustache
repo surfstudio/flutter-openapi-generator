@@ -1,0 +1,15 @@
+import 'package:jaguar_serializer/jaguar_serializer.dart';
+
+class DateFieldProcessor implements FieldProcessor<DateTime, String> {
+  const DateFieldProcessor();
+
+  DateTime deserialize(String date) {
+    if (date == null) return null;
+    return DateTime.tryParse(date);
+  }
+
+  String serialize(DateTime date) {
+    if (date == null) return null;
+    return date.toIso8601String().split('T').first;
+  }
+}

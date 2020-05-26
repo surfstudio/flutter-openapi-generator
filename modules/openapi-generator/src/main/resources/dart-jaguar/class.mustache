@@ -14,9 +14,12 @@ class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   {{#vars}}{{#description}} /* {{{description}}} */{{/description}}
   @Alias('{{{baseName}}}', isNullable:{{#isNullable}} true{{/isNullable}}{{^isNullable}} false{{/isNullable}}{{#allowableValues}}
           {{^enumVars.empty}}{{^isString}}{{! isString because inline enums are not handled for now }}
-             , processor:  const {{{datatypeWithEnum}}}FieldProcessor(),
+             , processor: const {{{datatypeWithEnum}}}FieldProcessor(),
           {{/isString}}{{/enumVars.empty}}
       {{/allowableValues}}
+      {{#isDate}}
+        , processor: const DateFieldProcessor(),
+      {{/isDate}}
   )
   final {{{datatype}}} {{name}};
 
