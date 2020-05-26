@@ -28,11 +28,16 @@ class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   const {{classname}}(
   {{#vars}}{{^defaultValue}}{{#required}} this.{{name}}, {{/required}}{{/defaultValue}}{{/vars}}
 
-{{#vendorExtensions}}{{#hasVars}}{
-    {{#vars}}{{^required}} this.{{name}}{{#defaultValue}} = {{{defaultValue}}}, {{/defaultValue}}{{/required}}
-    {{#required}} {{#defaultValue}}this.{{name}} = {{{defaultValue}}},{{/defaultValue}}{{/required}}{{/vars}}
-    }{{/hasVars}}{{/vendorExtensions}}
-  );
+  {{#vendorExtensions}}
+  {{#hasVars}}{
+    {{#parentModel}}
+    {{#vars}}{{dataType}} {{name}},{{/vars}}
+    {{/parentModel}}
+    {{#vars}}{{#defaultValue}}this.{{name}},{{/defaultValue}}{{/vars}}
+    }
+  {{/hasVars}}
+  {{/vendorExtensions}}
+  ){{#parentModel}}: super({{#vars}}{{name}}: {{name}},{{/vars}}){{/parentModel}};
 
   @override
   String toString() {
