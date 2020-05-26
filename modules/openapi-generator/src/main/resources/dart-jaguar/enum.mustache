@@ -23,17 +23,19 @@ class {{classname}}FieldProcessor implements FieldProcessor<{{classname}}, {{dat
     const {{classname}}FieldProcessor();
 
     {{classname}} deserialize({{dataType}} data) {
+        if (data == null) return null;
         switch (data) {
         {{#allowableValues}}
             {{#enumVars}}
             case {{{value}}}: return {{classname}}.{{{name}}};
             {{/enumVars}}
         {{/allowableValues}}
-            default: throw('Unknown enum value to decode: $data');
+            default: throw Exception('Unknown enum value to decode: $data');
         }
     }
 
     {{dataType}} serialize({{classname}} item) {
+        if (item == null) return null;
         return item.value;
     }
 }
