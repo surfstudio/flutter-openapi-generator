@@ -22,7 +22,7 @@ class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
 
   {{/vars}}
 
-  {{classname}}(
+  const {{classname}}(
   {{#vars}}{{^defaultValue}}{{#required}} this.{{name}}, {{/required}}{{/defaultValue}}{{/vars}}
 
 {{#vendorExtensions}}{{#hasVars}}{
