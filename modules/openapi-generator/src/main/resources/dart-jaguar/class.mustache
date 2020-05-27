@@ -24,20 +24,12 @@ class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   final {{{datatype}}} {{name}};
 
   {{/vars}}
-
-  const {{classname}}(
-  {{#vars}}{{^defaultValue}}{{#required}} this.{{name}}, {{/required}}{{/defaultValue}}{{/vars}}
-
-  {{#vendorExtensions}}
-  {{#hasVars}}{
+  const {{classname}}({
     {{#parentModel}}
     {{#vars}}{{dataType}} {{name}},{{/vars}}
     {{/parentModel}}
-    {{#vars}}{{#defaultValue}}this.{{name}},{{/defaultValue}}{{/vars}}
-    }
-  {{/hasVars}}
-  {{/vendorExtensions}}
-  ){{#parentModel}}: super({{#vars}}{{name}}: {{name}},{{/vars}}){{/parentModel}};
+    {{#vars}}this.{{name}},{{/vars}}
+  }){{#parentModel}}: super({{#vars}}{{name}}: {{name}},{{/vars}}){{/parentModel}};
 
   {{classname}} copyWith({
     {{#allVars}}
