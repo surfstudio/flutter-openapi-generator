@@ -39,6 +39,18 @@ class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   {{/vendorExtensions}}
   ){{#parentModel}}: super({{#vars}}{{name}}: {{name}},{{/vars}}){{/parentModel}};
 
+  {{classname}} copyWith({
+    {{#allVars}}
+      {{{dataType}}} {{name}},
+    {{/allVars}}
+  }) {
+    return {{classname}}(
+      {{#allVars}}
+        {{name}}: {{name}} ?? this.{{name}},
+      {{/allVars}}
+    );
+  }
+
   @override
   String toString() {
     return '{{classname}}[{{#allVars}}{{name}}=${{name}}, {{/allVars}}]';
