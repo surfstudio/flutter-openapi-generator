@@ -4,6 +4,8 @@
 class {{classname}} {
   final {{dataType}} value;
 
+  static const values = [{{#allowableValues}}{{#enumVars}}{{{name}}},{{/enumVars}}{{/allowableValues}}];
+
   const {{classname}}._internal(this.value);
 
   {{#allowableValues}}
