@@ -8,6 +8,9 @@ class {{classname}} {
 
   const {{classname}}._internal(this.value);
 
+  @override
+  String toString() => value;
+
   {{#allowableValues}}
   {{#enumVars}}
   {{#enumDescription}}
