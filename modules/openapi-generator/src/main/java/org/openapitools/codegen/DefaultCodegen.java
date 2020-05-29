@@ -2838,7 +2838,21 @@ public class DefaultCodegen implements CodegenConfig {
         }
         property.nameInCamelCase = camelize(property.name, false);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
-        property.description = escapeText(p.getDescription());
+        property.description = p.getDescription();
+
+        String description = property.description;
+        if (description != null) {
+            description = description
+                .replace("<br><br>", "\n")
+                .replace("\n", "\n    ")
+                .trim();
+
+            if (description.contains("\n")) {
+                description = "\n    " + description + "\n ";
+            }
+            property.description = description;
+        }
+
         property.unescapedDescription = p.getDescription();
         property.title = p.getTitle();
         property.getter = toGetter(name);
