@@ -3463,9 +3463,24 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         op.operationId = toOperationId(operationId);
-        op.summary = escapeText(operation.getSummary());
+        op.summary = operation.getSummary();
         op.unescapedNotes = operation.getDescription();
-        op.notes = escapeText(operation.getDescription());
+        op.notes = operation.getDescription();
+
+        String notes = op.notes;
+        if (notes != null) {
+            notes = notes.replace("<br><br>", "\n");
+            String[] lines = notes.split("\n");
+            StringBuilder builder = new StringBuilder();
+            for (String line : lines) {
+                builder.append("    /// ");
+                builder.append(line);
+                builder.append("\n");
+            }
+            builder.deleteCharAt(builder.length() - 1);
+            op.notes = builder.toString();
+        }
+
         op.hasConsumes = false;
         op.hasProduces = false;
         if (operation.getDeprecated() != null) {

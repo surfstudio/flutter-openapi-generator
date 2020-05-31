@@ -20,9 +20,9 @@ class {{classname}} extends ApiClient with _${{classname}}Client {
     {{classname}}(this.converters);
 
     {{#operation}}
-    /// {{summary}}
+    /// {{{summary}}}
     ///
-    /// {{notes}}
+{{{notes}}}
     @{{httpMethod}}Req(path: "{{path}}"{{#hasAuthMethods}}, metadata: {"auth": [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}]}{{/hasAuthMethods}})
     Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}StringResponse{{/returnType}}> {{nickname}}(
     {{#pathParams}}
