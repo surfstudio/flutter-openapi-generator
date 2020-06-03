@@ -208,7 +208,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
         supportingFiles.add(new SupportingFile("apilib.mustache", libFolder, "api.dart"));
 
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
