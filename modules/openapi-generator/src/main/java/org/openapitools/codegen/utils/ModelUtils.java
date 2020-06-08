@@ -1213,7 +1213,7 @@ public class ModelUtils {
         }
 
         // parent name only makes sense when there is a single obvious parent
-        if (refedWithoutDiscriminator.size() == 1) {
+        if (refedWithoutDiscriminator.size() == 1 || refedWithoutDiscriminator.size() == 2) {
             if (hasAmbiguousParents) {
                 LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
                                 "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
