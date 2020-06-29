@@ -379,4 +379,9 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
         return discriminator;
     }
+
+    @Override
+    public boolean isRemoveEnumValuePrefix() {
+        return false;
+    }
 }
