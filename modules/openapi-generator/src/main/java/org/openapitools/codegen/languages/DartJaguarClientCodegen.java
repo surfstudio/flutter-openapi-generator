@@ -363,7 +363,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         if (discriminator != null) {
             discriminator.getMappedModels().forEach(model -> {
                 final String serializerVariableName = "_"
-                        + String.valueOf(model.getModelName().charAt(0)).toLowerCase()
+                        + String.valueOf(model.getModelName().charAt(0)).toLowerCase(Locale.ENGLISH)
                         + model.getModelName().substring(1)
                         + "Serializer";
 
